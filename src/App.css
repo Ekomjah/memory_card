@@ -1,8 +1,9 @@
 #root {
-  max-width: 1280px;
+  max-width: 800px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  font-family: "Momo Trust Display", sans-serif;
 }
 
 .logo {
@@ -33,10 +34,73 @@
   }
 }
 
+.card-parent {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-gap: 1rem; /* Space between grid items */
+}
 .card {
-  padding: 2em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  cursor: pointer;
+  align-items: center;
+  gap: 3;
+  background-color: rgb(27, 0, 58);
+  border-radius: 10px;
+  padding: 1rem;
+  transition:
+    box-shadow 0.3s ease-in-out,
+    transform 0.3s ease-in-out;
 }
 
+.card:hover {
+  box-shadow: 0 4px 8px rgb(0, 0, 0);
+  transform: scale(1.01);
+}
+
+.card-img {
+  width: 100%;
+  background-color: #61fbeeaa;
+  border-radius: 10px;
+  padding-block: 1rem;
+}
+
+.card-text {
+  font-weight: bolder;
+  font-size: 1rem;
+}
 .read-the-docs {
-  color: #888;
+  color: #ffffff;
+}
+
+.loading {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #646cff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@media (min-width: 768px) {
+  .card-parent {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.error {
+  color: rgb(167, 12, 12);
 }
