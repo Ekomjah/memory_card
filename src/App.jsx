@@ -30,7 +30,6 @@ function App() {
           <span>
             {count >= 60 &&
               `${Math.floor(count / 60)} ${Math.floor(count / 60) > 1 ? " minutes : " : " minute : "}`}
-           
           </span>
           <span> {count % 60} seconds</span>
         </div>
