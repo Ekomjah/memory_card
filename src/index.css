@@ -4,7 +4,7 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
+  color: #777;
   background-color: #242424;
 
   font-synthesis: none;
@@ -31,12 +31,9 @@ body {
 }
 
 h1 {
-  font-size: 3.2em;
+  font-size: 2rem;
   line-height: 1.1;
-}
-
-p {
-  color: var();
+  color: purple;
 }
 
 button {
@@ -60,7 +57,6 @@ button:focus-visible {
 
 @media (prefers-color-scheme: light) {
   :root {
-    color: #aab9b6;
     background-color: #ffffff;
   }
   a:hover {
@@ -69,4 +65,10 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+.flex-score {
+  display: flex;
+  justify-content: space-between;
+  max-width: 400px;
+  margin: 0 auto 1rem auto;
 }

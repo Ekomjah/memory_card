@@ -104,3 +104,16 @@
 .error {
   color: rgb(167, 12, 12);
 }
+
+.flex-score {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.score {
+  color: rgb(160, 167, 64);
+}
+.high-score {
+  color: rgb(59, 214, 59);
+}

@@ -2,15 +2,16 @@ import { useState, useEffect } from "react";
 import "./App.css";
 
 function App() {
-  const [poker, setPoker] = useState([]);
+  const [poker, setPoker] = useState([0]);
   const [loading, setLoading] = useState(true);
   const [counter, setCounter] = useState(0);
   const [error, setError] = useState(false);
+  const [highScore, setHighScore] = useState([0]);
   useEffect(() => {
     async function pokerFetch() {
       try {
         const response = await fetch(
-          "https://pokeapi.co/api/v2/pokemon?limit=25",
+          "https://pokeapi.co/api/v2/pokemon?limit=40",
         );
 
         if (!response.ok) {
@@ -31,9 +32,25 @@ function App() {
           };
         });
         const result = await Promise.all(array);
-        setPoker(result);
+        const randomizedArr = result.slice();
+        let currentIndex = randomizedArr.length;
+
+        // While there remain elements to shuffle...
+        while (currentIndex != 0) {
+          // Pick a remaining element...
+          let randomIndex = Math.floor(Math.random() * currentIndex);
+          currentIndex--;
+
+          // And swap it with the current element.
+          [randomizedArr[currentIndex], randomizedArr[randomIndex]] = [
+            randomizedArr[randomIndex],
+            randomizedArr[currentIndex],
+          ];
+        }
+        setPoker(randomizedArr);
 
         console.log(result);
+        console.log(randomizedArr);
       } catch (err) {
         setError(true);
         console.log("Error, ", err);
@@ -63,6 +80,28 @@ function App() {
       setPoker(array);
     }
   }
+  function isGameOver(cardName) {
+    if (
+      counter === poker.length - 1 ||
+      poker[poker.findIndex(({ name }) => name === cardName)].isHit
+    ) {
+      setHighScore((prev) => [...prev, counter]);
+      setCounter(0);
+      setPoker((prevPoker) =>
+        prevPoker.map((poke) => ({ ...poke, isHit: false })),
+      );
+    } else {
+      console.log(
+        poker[poker.findIndex(({ name }) => name === cardName)].isHit,
+      );
+      setPoker((prevPoker) =>
+        prevPoker.map((poke) =>
+          poke.name === cardName ? { ...poke, isHit: true } : poke,
+        ),
+      );
+      setCounter((counter) => counter + 1);
+    }
+  }
   if (loading) {
     return <div className="loading"></div>;
   } else if (error) {
@@ -70,16 +109,20 @@ function App() {
   }
   return (
     <>
+      <h1>Poke Memory Card Game</h1>
       <div>
-        <p>Counter: {counter}</p>
+        <div className="flex-score">
+          <p className="score">Score: {counter}</p>
+          <p className="high-score">Highest Score: {Math.max(...highScore)}</p>
+        </div>
         <div className="card-parent">
           {!loading &&
             poker.map(({ name, image }) => (
               <div
                 className="card"
                 onClick={() => {
-                  setCounter((count) => count + 1);
                   shuffle();
+                  isGameOver(name);
                 }}
               >
                 <img className="card-img" src={image} alt={name} />
