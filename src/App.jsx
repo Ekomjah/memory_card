@@ -28,6 +28,7 @@ function App() {
           return {
             name: subData.name,
             image: subData.sprites.other["official-artwork"].front_default,
+            sound: subData.cries.latest,
             isHit: false,
           };
         });
@@ -48,9 +49,6 @@ function App() {
           ];
         }
         setPoker(randomizedArr);
-
-        console.log(result);
-        console.log(randomizedArr);
       } catch (err) {
         setError(true);
         console.log("Error, ", err);
@@ -61,6 +59,12 @@ function App() {
 
     pokerFetch();
   }, []);
+
+  function audioPlay(url) {
+    const audio = new Audio(url);
+    audio.play();
+    return audio;
+  }
 
   function shuffle() {
     const array = poker.slice();
@@ -91,9 +95,6 @@ function App() {
         prevPoker.map((poke) => ({ ...poke, isHit: false })),
       );
     } else {
-      console.log(
-        poker[poker.findIndex(({ name }) => name === cardName)].isHit,
-      );
       setPoker((prevPoker) =>
         prevPoker.map((poke) =>
           poke.name === cardName ? { ...poke, isHit: true } : poke,
@@ -117,10 +118,11 @@ function App() {
         </div>
         <div className="card-parent">
           {!loading &&
-            poker.map(({ name, image }) => (
+            poker.map(({ name, image, sound }) => (
               <div
                 className="card"
                 onClick={() => {
+                  audioPlay(sound);
                   shuffle();
                   isGameOver(name);
                 }}
