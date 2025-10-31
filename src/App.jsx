@@ -59,9 +59,13 @@ function App() {
 
     pokerFetch();
   }, []);
-
+  let audio = null;
   function audioPlay(url) {
-    const audio = new Audio(url);
+    if (audio) {
+      audio.pause();
+      audio.currentTime = 0;
+    }
+    audio = new Audio(url);
     audio.play();
     return audio;
   }
